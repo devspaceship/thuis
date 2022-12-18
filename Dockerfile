@@ -18,6 +18,7 @@ RUN apt-get update \
         wget \
         git \
         zsh \
+        neofetch \
         tmux \
         gcc \
         g++ \
@@ -61,13 +62,20 @@ RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/
 RUN wget https://download.visualstudio.microsoft.com/download/pr/caa0e6fb-770c-4b21-ba55-30154a7a9e11/3231af451861147352aaf43cf23b16ea/$DOTNET_FILE \
     && export DOTNET_ROOT=$HOME/.dotnet \
     && mkdir -p "$DOTNET_ROOT" && tar zxf "$DOTNET_FILE" -C "$DOTNET_ROOT" \
-    && echo 'export DOTNET_ROOT=$HOME/.dotnet' >> .zshrc \
-    && echo 'export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' >> .zshrc
+    && rm $DOTNET_FILE
+
+# Chezmoi
+RUN sh -c "$(curl -fsLS get.chezmoi.io)" \
+    && echo 'export PATH=$PATH:$HOME/bin' >> .zshrc
+
+# Starship Prompt
+RUN wget https://starship.rs/install.sh \
+    && chmod +x install.sh \
+    && ./install.sh --yes \
+    && rm install.sh
 
 CMD zsh
 
-# PowerShell
-# dotfiles
 # non-root user password
 # -> disclaimer to not publish built image because secret baked in / also it's a heavy image
 # better -> build with --secret

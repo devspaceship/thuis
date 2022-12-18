@@ -6,9 +6,13 @@
 - Zsh
 - Oh my zsh
 - Git
+- Tmux
+- Neovim
 - Rust
 - Python
-- Vim
+- Node
+- Yarn
+- Dotnet
 
 ## Usage
 
@@ -19,3 +23,4 @@ The subsequent times, run `./run.sh` to start the container and attach to it.
 
 - [ ] Dotfile repo support
 - [ ] Have prompts in ./setup.sh that take args for including rust / node etc.
+- [ ] Dotnet installation compatibility with amd64 architecture

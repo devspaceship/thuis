@@ -2,6 +2,7 @@ FROM ubuntu
 ARG USERNAME=devspaceship
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG DOTNET_FILE=dotnet-sdk-7.0.101-linux-arm64.tar.gz
 
 # Unminimize
 RUN yes | unminimize
@@ -14,8 +15,10 @@ RUN apt-get update \
         man-db \
         software-properties-common \
         curl \
+        wget \
         git \
         zsh \
+        tmux \
         gcc \
         g++ \
         make \
@@ -54,10 +57,17 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs > rust-install.sh 
 # Oh my zsh
 RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Dotnet
+RUN wget https://download.visualstudio.microsoft.com/download/pr/caa0e6fb-770c-4b21-ba55-30154a7a9e11/3231af451861147352aaf43cf23b16ea/$DOTNET_FILE \
+    && export DOTNET_ROOT=$HOME/.dotnet \
+    && mkdir -p "$DOTNET_ROOT" && tar zxf "$DOTNET_FILE" -C "$DOTNET_ROOT" \
+    && echo 'export DOTNET_ROOT=$HOME/.dotnet' >> .zshrc \
+    && echo 'export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools' >> .zshrc
+
 CMD zsh
 
-# dotnet / tmux / PowerShell
+# PowerShell
 # dotfiles
 # non-root user password
-# -> disclaimer to not publish built image because secret baked in
+# -> disclaimer to not publish built image because secret baked in / also it's a heavy image
 # better -> build with --secret

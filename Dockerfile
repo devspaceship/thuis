@@ -39,6 +39,7 @@ RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/
 
 CMD zsh
 
-# dotnet / node / neovim / tmux # dotfiles
+# dotnet / node / neovim / tmux
+# dotfiles
 # non-root user password
 # -> disclaimer to not publish built image because secret baked in

@@ -1,5 +1,8 @@
 FROM ubuntu
 
+# Unminimize
+RUN yes | unminimize
+
 # Base
 RUN apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -11,11 +14,8 @@ RUN apt-get update \
         python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# RUST / NODE / NEOVIM
+# RUST / DOTNET / NODE / NEOVIM / ZSH / TMUX
 # dotfiles
-
-# Unminimizing
-RUN yes | unminimize
 
 
 # Non-root user

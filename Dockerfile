@@ -12,12 +12,18 @@ RUN apt-get update \
     && apt-get install -y \
         sudo \
         man-db \
+        software-properties-common \
         curl \
         git \
         zsh \
-        vim \
-        python3 \
-    && rm -rf /var/lib/apt/lists/*
+        python3
+
+# Neovim
+RUN add-apt-repository ppa:neovim-ppa/stable \
+    && apt-get update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y \
+        neovim
 
 # Non-root user
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -39,7 +45,7 @@ RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/
 
 CMD zsh
 
-# dotnet / node / neovim / tmux
+# dotnet / node / tmux / PowerShell
 # dotfiles
 # non-root user password
 # -> disclaimer to not publish built image because secret baked in

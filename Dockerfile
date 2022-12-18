@@ -16,6 +16,9 @@ RUN apt-get update \
         curl \
         git \
         zsh \
+        gcc \
+        g++ \
+        make \
         python3
 
 # Neovim
@@ -24,6 +27,14 @@ RUN add-apt-repository ppa:neovim-ppa/stable \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y \
         neovim
+
+# Node
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
+
+# Yarn
+RUN corepack enable \
+    && corepack prepare yarn@stable --activate
 
 # Non-root user
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -45,7 +56,8 @@ RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/
 
 CMD zsh
 
-# dotnet / node / tmux / PowerShell
+# dotnet / tmux / PowerShell
 # dotfiles
 # non-root user password
 # -> disclaimer to not publish built image because secret baked in
+# better -> build with --secret
